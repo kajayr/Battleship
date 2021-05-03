@@ -1,9 +1,11 @@
 package com.leo;
 
 public class Carrier implements Ship{
+    private String boardChar = "C";
     int length = 5;
     private int coordinate1;
     private int coordinate2;
+
     @Override
     public void addingShipMessage(){
         System.out.println("The " + this.getClass().getSimpleName() + " had added to the board");
@@ -28,5 +30,9 @@ public class Carrier implements Ship{
     public void setCoordinates(int coordinate1, int coordinate2){
         this.coordinate1 = coordinate1;
         this.coordinate2 = coordinate2;
+    }
+    @Override
+    public String getBoardChar(){
+        return this.boardChar;
     }
 }

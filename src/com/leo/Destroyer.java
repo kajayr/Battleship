@@ -1,6 +1,7 @@
 package com.leo;
 
 public class Destroyer implements Ship {
+    private String boardChar = "d";
     private int length = 2;
     private int coordinate1;
     private int coordinate2;
@@ -28,5 +29,9 @@ public class Destroyer implements Ship {
     public void setCoordinates(int coordinate1, int coordinate2){
         this.coordinate1 = coordinate1;
         this.coordinate2 = coordinate2;
+    }
+    @Override
+    public String getBoardChar(){
+        return this.boardChar;
     }
 }

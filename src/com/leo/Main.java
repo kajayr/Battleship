@@ -18,6 +18,8 @@ public class Main {
         Ship cruiser = new Cruiser();
         Ship battleShip = new BattleShip();
         Ship carrier = new Carrier();
+        Map1 map1 = new Map1();
+        Map2 map2 = new Map2();
         System.out.println("Battleship Multiplayer");
         System.out.println("Enter Player 1 name:");
         String player1Name = scanner.next();
@@ -25,8 +27,6 @@ public class Main {
         System.out.println("Enter Player 2 name:");
         String player2Name = scanner.next();
         player2.setName(player2Name);
-        Map1 map1 = new Map1();
-        Map2 map2 = new Map2();
 //Player 1
         System.out.println(player1.getName() + ", please enter the coordinates for your ships");
 for(int i = 0; i < 5; i++){
@@ -48,25 +48,62 @@ for(int i = 0; i < 5; i++){
             ship = carrier;
             break;
     }
-map1.getMap(ship, map1 );
-//while(true){
-//    System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
-//    System.out.println("First point: ");
-//    int firstPoint = scanner.nextInt();
-//    System.out.println("Second point: ");
-//    int secondPoint = scanner.nextInt();
-//    System.out.println("Place horizontally or vertically (h or v)?");
-//    String adjacent = scanner.next();
-//    if(map1.showMap()[firstPoint][secondPoint].equals("~")){
-//        ship.setCoordinates(firstPoint, secondPoint);
-//        map1.getMap(firstPoint, secondPoint, ship, adjacent);
-//        break;
-//    }else{
-//        System.out.println("The chosen coordinates are already filed. Please try again");
-//    }
-//}
+    int firstPoint;
+    int secondPoint;
+    String adjacent;
+    while(true){
+        System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
+        System.out.println("First point: ");
+        firstPoint = scanner.nextInt();
+        System.out.println("Second point: ");
+        secondPoint = scanner.nextInt();
+        System.out.println("Place horizontally or vertically (h or v)?");
+        adjacent = scanner.next();
+        if (adjacent.equals("v")) {
+            for (int j = 0; j < ship.getLength(); j++) {
+                boolean availableSpots = true;
+                while(availableSpots){
+                    if(!map1.showMap()[firstPoint + j][secondPoint].equals("~")){
+                        System.out.println("That spot is merging other ships. Please choose another vertically point");
+                        System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
+                        System.out.println("First point: ");
+                        firstPoint = scanner.nextInt();
+                        System.out.println("Second point: ");
+                        secondPoint = scanner.nextInt();
+                        map1.showMap()[firstPoint + j][secondPoint] = "~";
+                    }else{
+                        map1.showMap()[firstPoint + j][secondPoint] = ship.getBoardChar();
+                        System.out.println(Arrays.deepToString(map1.showMap()).replace("], ", "]\n"));
+                        availableSpots = false;
+                    }
+                }
+            }
+        } else if (adjacent.equals("h")) {
+            for (int p = 0; p < ship.getLength(); p++) {
+                boolean availableSpots = true;
+                while(availableSpots){
+                    if(!map1.showMap()[firstPoint][secondPoint + p].equals("~")){
+                        System.out.println("That spot is merging other ships. Please choose another vertically point");
+                        System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
+                        System.out.println("First point: ");
+                        firstPoint = scanner.nextInt();
+                        System.out.println("Second point: ");
+                        secondPoint = scanner.nextInt();
+                        map1.showMap()[firstPoint][secondPoint + p] = "~";
+                    }else{
+                        map1.showMap()[firstPoint][secondPoint + p] = ship.getBoardChar();
+                        System.out.println(Arrays.deepToString(map1.showMap()).replace("], ", "]\n"));
+                        availableSpots = false;
+                    }
+                }
+            }
+        }
+        ship.setCoordinates(firstPoint, secondPoint);
+        break;
+    }
+    System.out.println(Arrays.deepToString(map1.showMap()).replace("], ", "]\n"));
 }
-//Player 2
+        System.out.println(player2.getName() + ", please enter the coordinates for your ships");
         for(int i = 0; i < 5; i++){
             Ship ship = null;
             switch (i){
@@ -86,21 +123,112 @@ map1.getMap(ship, map1 );
                     ship = carrier;
                     break;
             }
-            System.out.println(player2.getName() + ", please enter the coordinates for your ships");
-            System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
-            System.out.println("First point: ");
-            int firstPoint = scanner.nextInt();
-            System.out.println("Second point: ");
-            int secondPoint = scanner.nextInt();
-            System.out.println("Place horizontally or vertically (h or v)?");
-            String adjacent = scanner.next();
-            ship.setCoordinates(firstPoint, secondPoint);
-            map2.getMap(firstPoint, secondPoint, ship, adjacent);
+            int firstPoint;
+            int secondPoint;
+            String adjacent;
+            while(true){
+                System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
+                System.out.println("First point: ");
+                firstPoint = scanner.nextInt();
+                System.out.println("Second point: ");
+                secondPoint = scanner.nextInt();
+                System.out.println("Place horizontally or vertically (h or v)?");
+                adjacent = scanner.next();
+                if (adjacent.equals("v")) {
+                    for (int j = 0; j < ship.getLength(); j++) {
+                        boolean availableSpots = true;
+                        while(availableSpots){
+                            if(!map2.showMap()[firstPoint + j][secondPoint].equals("~")){
+                                System.out.println("That spot is merging other ships. Please choose another vertically point");
+                                System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
+                                System.out.println("First point: ");
+                                firstPoint = scanner.nextInt();
+                                System.out.println("Second point: ");
+                                secondPoint = scanner.nextInt();
+                                map2.showMap()[firstPoint + j][secondPoint] = "~";
+                            }else{
+                                map2.showMap()[firstPoint + j][secondPoint] = ship.getBoardChar();
+                                System.out.println(Arrays.deepToString(map2.showMap()).replace("], ", "]\n"));
+                                availableSpots = false;
+                            }
+                        }
+                    }
+                } else if (adjacent.equals("h")) {
+                    for (int p = 0; p < ship.getLength(); p++) {
+                        boolean availableSpots = true;
+                        while(availableSpots){
+                            if(!map2.showMap()[firstPoint][secondPoint + p].equals("~")){
+                                System.out.println("That spot is merging other ships. Please choose another vertically point");
+                                System.out.println("Enter the coordinates for the " + ship.getClass().getSimpleName() + ": ");
+                                System.out.println("First point: ");
+                                firstPoint = scanner.nextInt();
+                                System.out.println("Second point: ");
+                                secondPoint = scanner.nextInt();
+                                map2.showMap()[firstPoint][secondPoint + p] = "~";
+                            }else{
+                                map2.showMap()[firstPoint][secondPoint + p] = ship.getBoardChar();
+                                System.out.println(Arrays.deepToString(map2.showMap()).replace("], ", "]\n"));
+                                availableSpots = false;
+                            }
+                        }
+                    }
+                }
+                ship.setCoordinates(firstPoint, secondPoint);
+                break;
+            }
+            System.out.println(Arrays.deepToString(map2.showMap()).replace("], ", "]\n"));
         }
-        System.out.println("This is " + player1.getName() + " map:");
-        System.out.println(Arrays.deepToString(map1.showMap()).replace("], ", "]\n"));
-        System.out.println("This is " + player2.getName() + " map:");
-        System.out.println(Arrays.deepToString(map2.showMap()).replace("], ", "]\n"));
-
+// end of Player 2
+        TargetMessage targetMessage = new TargetMessage();
+        boolean endGame = true;
+       while(endGame){
+           // Player 2 attack
+           System.out.println( player2.getName() +", which spot do you want to target?");
+           System.out.println("First point");
+           int s2targetPoint1 = scanner.nextInt();
+           System.out.println("Second point");
+           int s2targetPoint2 = scanner.nextInt();
+           String sendMessage = map1.showMap()[s2targetPoint1][s2targetPoint2];
+           if(!map1.showMap()[s2targetPoint1][s2targetPoint2].equals("~")){
+               map1.showMap()[s2targetPoint1][s2targetPoint2] = "x";
+               System.out.println(Arrays.deepToString(map1.showMap()).replace("], ", "]\n"));
+               targetMessage.message(sendMessage);
+           }else{
+               map1.showMap()[s2targetPoint1][s2targetPoint2] = "m";
+               System.out.println(Arrays.deepToString(map1.showMap()).replace("], ", "]\n"));
+               targetMessage.message(sendMessage);
+           }
+//           for(int i = 0; i < map1.showMap().length; i++){
+//               for(int j = 0; j < map1.showMap().length; j++){
+//                   if(!map1.showMap()[i][j].contains("d")){
+//                       //&& !map1.showMap()[i][j].equals("s") && !map1.showMap()[i][j].equals("c") && !map1.showMap()[i][j].equals("b") && !map1.showMap()[i][j].equals("C")
+//
+//                   }
+//                   else{
+//                       System.out.println(player2.getName() + " destroyed all the ships and WON the game!");
+//                       endGame = false;
+//                       break;
+//                   }
+//               }
+//           }
+           // Player 2 attack ends here
+           // Player 1 attack
+           System.out.println( player1.getName() +", which spot do you want to target?");
+           System.out.println("First point");
+           int s1targetPoint1 = scanner.nextInt();
+           System.out.println("Second point");
+           int s1targetPoint2 = scanner.nextInt();
+           sendMessage = map2.showMap()[s1targetPoint1][s1targetPoint2];
+           if(!map2.showMap()[s1targetPoint1][s1targetPoint2].equals("~")){
+               map2.showMap()[s1targetPoint1][s1targetPoint2] = "x";
+               System.out.println(Arrays.deepToString(map2.showMap()).replace("], ", "]\n"));
+               targetMessage.message(sendMessage);
+           }else{
+               map2.showMap()[s1targetPoint1][s1targetPoint2] = "m";
+               System.out.println(Arrays.deepToString(map2.showMap()).replace("], ", "]\n"));
+               targetMessage.message(sendMessage);
+           }
+           // Player 1 attack ends here
+       }
     }
 }
